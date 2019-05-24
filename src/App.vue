@@ -166,6 +166,13 @@
             ></v-radio-btn>
           </div>
 
+          <div class="cell" v-if="publicArea">
+            <v-radio-btn
+              label="四捨五入"
+              v-model="rounding"
+              :items="roundingItems"
+            ></v-radio-btn>
+          </div>
           <div class="cell-spacer"></div>
 
           <template v-for="(dollar, index) in adjustedAmount">
@@ -203,7 +210,7 @@
             <div class="result">
               <div class="result-wrapper layout">
                 <div class="label flex xs3">總電費</div>
-                <div class="memo flex xs5"></div>
+                <div class="memo flex xs5">調整{{ 89 }}%</div>
                 <div class="amount flex xs4">{{ sum(amount) }}元</div>
               </div>
             </div>
@@ -215,7 +222,7 @@
             <div class="layout">
               <div
                 class="flex xs4"
-                style="border-right: 1px solid rgb(255, 183, 0);"
+                style="border-right: 2px solid rgb(255, 183, 0);"
               >
                 <div class="submit-btn" @click="page--">
                   <div class="submit-btn__strip"></div>
@@ -307,6 +314,12 @@ export default {
 
       amount: [255.6, 160.4, 207],
 
+      rounding: true,
+      roundingItems: [
+        { label: '開啟', value: true },
+        { label: '關閉', value: false }
+      ],
+
       page: 2
     }
   },
@@ -324,10 +337,18 @@ export default {
             newAmount[i] += splitPublicAreaAmount
           }
         }
+        for (let i = 0; i < newAmount.length; i++) {
+          newAmount[i] = newAmount[i].toFixed(1)
+        }
 
         return newAmount
       } else {
-        return this.amount
+        let newAmount = this.amount.slice(0)
+        for (let i = 0; i < newAmount.length; i++) {
+          newAmount[i] = newAmount[i].toFixed(1)
+        }
+
+        return newAmount
       }
     },
     amountPublic() {
@@ -335,7 +356,7 @@ export default {
         return 0
       }
       if (this.publicArea) {
-        return this.amount[this.amount.length - 1]
+        return this.amount[this.amount.length - 1].toFixed(1)
       } else {
         return 0
       }

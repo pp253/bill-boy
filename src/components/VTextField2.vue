@@ -107,7 +107,7 @@ $height: 54px - 8px * 2;
         outline: none;
 
         &:focus {
-          border-bottom: 1px solid #000;
+          border-bottom: 1px solid #e8003e;
         }
       }
     }

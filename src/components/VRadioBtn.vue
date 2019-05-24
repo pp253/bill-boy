@@ -7,10 +7,12 @@
       <div class="items" v-if="items">
         <template v-for="(item, index) in items">
           <div class="item" :key="index" @click="$emit('input', item.value)">
-            <div class="radiobox" v-if="item.value === value">
-              ✔
+            <div class="item-wrapper">
+              <div class="radiobox" v-if="item.value === value">
+                ✔
+              </div>
+              {{ item.label }}
             </div>
-            {{ item.label }}
           </div>
         </template>
       </div>
@@ -50,20 +52,29 @@ $height: 54px;
       margin-right: 8px;
       min-width: 100px;
       text-align: left;
+      flex: 1;
     }
 
     .items {
-      flex: 1;
+      flex: 2;
       display: flex;
       font-size: 16px;
+      max-width: 400px;
 
       .item {
-        line-height: $height;
         flex: 1;
+        line-height: $height;
         height: 100%;
         border-left: 1px solid #000;
-
+        overflow: hidden;
         cursor: pointer;
+
+        .item-wrapper {
+          vertical-align: middle;
+          display: inline-block;
+          line-height: normal;
+        }
+
         &:active {
           background-color: #e8003e;
           color: #fff;
